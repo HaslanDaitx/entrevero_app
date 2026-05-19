@@ -1,6 +1,13 @@
-function CardPessoa({ pessoa }) {
+import { useState } from "react"
+
+function CardPessoa({ pessoa, onConfirmarPagamento }) {
+  const [mostrarTelefone, setMostrarTelefone] = useState(false)
+
   return (
-    <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 text-center hover:shadow-md transition">
+    <div
+      onClick={() => setMostrarTelefone(!mostrarTelefone)}
+      className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 text-center hover:shadow-md transition cursor-pointer"
+    >
       {pessoa.imagem ? (
         <img
           src={pessoa.imagem}
@@ -19,6 +26,12 @@ function CardPessoa({ pessoa }) {
         {pessoa.egresso ? "Egresso/Convidado" : "Estudante"}
       </p>
 
+      {mostrarTelefone && (
+        <p className="text-sm font-semibold text-slate-700 mt-2">
+          Tel: {pessoa.telefone}
+        </p>
+      )}
+
       <div className="mt-4 flex justify-center">
         <span
           className={`text-xs font-semibold px-3 py-1 rounded-full ${
@@ -30,6 +43,19 @@ function CardPessoa({ pessoa }) {
           {pessoa.pagou ? "Confirmado" : "Não confirmado"}
         </span>
       </div>
+
+      {!pessoa.pagou && (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            onConfirmarPagamento(pessoa.id)
+          }}
+          className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-xl transition"
+        >
+          Confirmar pagamento
+        </button>
+      )}
     </div>
   )
 }

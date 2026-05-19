@@ -8,6 +8,22 @@ function FormCadastro({ onCadastrar }) {
   const [pagou, setPagou] = useState(false)
   const [erro, setErro] = useState("")
 
+  function alterarTelefone(event) {
+    const apenasNumeros = event.target.value.replace(/\D/g, "")
+    const telefoneLimitado = apenasNumeros.slice(0, 11)
+
+    setTelefone(telefoneLimitado)
+  }
+
+  function formatarNome(nomeDigitado) {
+    return nomeDigitado
+      .toLowerCase()
+      .split(" ")
+      .filter((palavra) => palavra !== "")
+      .map((palavra) => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(" ")
+  }
+
   function cadastrarPessoa(event) {
     event.preventDefault()
 
@@ -16,9 +32,16 @@ function FormCadastro({ onCadastrar }) {
       return
     }
 
+    if (telefone.length < 10) {
+      setErro("Informe um telefone válido com DDD. Ex: 51 999999999.")
+      return
+    }
+
+    const nomeFormatado = formatarNome(nome)
+
     const novaPessoa = {
       id: Date.now(),
-      nome,
+      nome: nomeFormatado,
       telefone,
       imagem,
       egresso,
@@ -56,9 +79,11 @@ function FormCadastro({ onCadastrar }) {
         </label>
         <input
           type="text"
-          placeholder="Digite o telefone"
+          inputMode="numeric"
+          maxLength={11}
+          placeholder="Ex: 51 999999999"
           value={telefone}
-          onChange={(event) => setTelefone(event.target.value)}
+          onChange={alterarTelefone}
           className="w-full border border-slate-300 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>

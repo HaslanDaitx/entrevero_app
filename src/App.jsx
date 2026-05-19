@@ -8,16 +8,34 @@ function App() {
   const [pessoas, setPessoas] = useState([])
   const [nomeUsuario, setNomeUsuario] = useState("")
 
+  const totalConfirmados = pessoas.filter((pessoa) => pessoa.pagou).length
+  const totalPendentes = pessoas.filter((pessoa) => !pessoa.pagou).length
+
   function adicionarPessoa(novaPessoa) {
-  const listaAtualizada = [...pessoas, novaPessoa]
+    const listaAtualizada = [...pessoas, novaPessoa]
 
-  listaAtualizada.sort((a, b) =>
-    a.nome.toLowerCase().localeCompare(b.nome.toLowerCase())
-  )
+    listaAtualizada.sort((a, b) =>
+      a.nome.toLowerCase().localeCompare(b.nome.toLowerCase())
+    )
 
-  setPessoas(listaAtualizada)
-  setNomeUsuario(novaPessoa.nome)
-}
+    setPessoas(listaAtualizada)
+    setNomeUsuario(novaPessoa.nome)
+  }
+
+  function confirmarPagamento(id) {
+    const listaAtualizada = pessoas.map((pessoa) => {
+      if (pessoa.id === id) {
+        return {
+          ...pessoa,
+          pagou: true,
+        }
+      }
+
+      return pessoa
+    })
+
+    setPessoas(listaAtualizada)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50">
@@ -39,20 +57,34 @@ function App() {
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           <div className="md:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center justify-between gap-4 mb-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
               <div>
                 <h2 className="text-xl font-bold text-slate-800">
                   Participantes
                 </h2>
 
-                <p className="text-sm text-slate-500">
-                  Total cadastrados: {pessoas.length}
-                </p>
+                {pessoas.length === 0 && (
+                  <p className="text-sm text-slate-500">
+                    Nenhum cadastro realizado ainda.
+                  </p>
+                )}
               </div>
 
-              <span className="bg-blue-100 text-blue-700 text-sm font-semibold px-4 py-2 rounded-full">
-                {pessoas.length} pessoa(s)
-              </span>
+              {pessoas.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {totalConfirmados > 0 && (
+                    <span className="bg-green-100 text-green-700 text-sm font-semibold px-4 py-2 rounded-full">
+                      {totalConfirmados} confirmado(s)
+                    </span>
+                  )}
+
+                  {totalPendentes > 0 && (
+                    <span className="bg-red-100 text-red-700 text-sm font-semibold px-4 py-2 rounded-full">
+                      {totalPendentes} pendente(s)
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
             {pessoas.length === 0 ? (
@@ -73,7 +105,11 @@ function App() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {pessoas.map((pessoa) => (
-                  <CardPessoa key={pessoa.id} pessoa={pessoa} />
+                  <CardPessoa
+                    key={pessoa.id}
+                    pessoa={pessoa}
+                    onConfirmarPagamento={confirmarPagamento}
+                  />
                 ))}
               </div>
             )}
