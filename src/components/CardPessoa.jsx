@@ -1,13 +1,29 @@
 import { useState } from "react"
+import { Trash2 } from "lucide-react"
 
-function CardPessoa({ pessoa, onConfirmarPagamento }) {
+function CardPessoa({
+  pessoa,
+  onConfirmarPagamento,
+  onRemoverParticipante,
+}) {
   const [mostrarTelefone, setMostrarTelefone] = useState(false)
 
   return (
     <div
       onClick={() => setMostrarTelefone(!mostrarTelefone)}
-      className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 text-center hover:shadow-md transition cursor-pointer"
+      className="relative bg-white border border-slate-200 rounded-3xl shadow-sm p-5 text-center hover:shadow-md transition cursor-pointer"
     >
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation()
+          onRemoverParticipante(pessoa.id)
+        }}
+        className="absolute top-4 right-4 p-2 rounded-xl text-red-500 hover:bg-red-50 hover:text-red-700 transition"
+      >
+        <Trash2 size={18} />
+      </button>
+
       {pessoa.imagem ? (
         <img
           src={pessoa.imagem}

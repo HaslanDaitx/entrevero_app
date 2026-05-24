@@ -59,8 +59,9 @@ function FormCadastro({ onCadastrar }) {
   }
 
   return (
-    <form onSubmit={cadastrarPessoa} className="space-y-4">
-      <div>
+  <form onSubmit={cadastrarPessoa} className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="md:col-span-2">
         <label className="block text-sm font-semibold text-slate-700 mb-1">
           Nome
         </label>
@@ -87,21 +88,23 @@ function FormCadastro({ onCadastrar }) {
           className="w-full border border-slate-300 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+    </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">
-          URL da imagem
-        </label>
-        <input
-          type="text"
-          placeholder="Cole a URL da imagem"
-          value={imagem}
-          onChange={(event) => setImagem(event.target.value)}
-          className="w-full border border-slate-300 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+    <div>
+      <label className="block text-sm font-semibold text-slate-700 mb-1">
+        URL da imagem
+      </label>
+      <input
+        type="text"
+        placeholder="Cole a URL da imagem"
+        value={imagem}
+        onChange={(event) => setImagem(event.target.value)}
+        className="w-full border border-slate-300 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-      <div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
         <p className="text-sm font-semibold text-slate-700 mb-2">
           Egresso/Convidado?
         </p>
@@ -129,7 +132,7 @@ function FormCadastro({ onCadastrar }) {
         </div>
       </div>
 
-      <div>
+      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
         <p className="text-sm font-semibold text-slate-700 mb-2">
           Pagou?
         </p>
@@ -156,21 +159,22 @@ function FormCadastro({ onCadastrar }) {
           </label>
         </div>
       </div>
+    </div>
 
-      {erro && (
-        <p className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-xl">
-          {erro}
-        </p>
-      )}
+    {erro && (
+      <p className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-xl">
+        {erro}
+      </p>
+    )}
 
-      <button
-        type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl transition"
-      >
-        Cadastrar
-      </button>
-    </form>
-  )
+    <button
+      type="submit"
+      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl transition"
+    >
+      Cadastrar
+    </button>
+  </form>
+)
 }
 
 export default FormCadastro

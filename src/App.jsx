@@ -37,6 +37,12 @@ function App() {
     setPessoas(listaAtualizada)
   }
 
+  function removerParticipante(id) {
+    const listaAtualizada = pessoas.filter((pessoa) => pessoa.id !== id)
+
+    setPessoas(listaAtualizada)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50">
       <Header name={nomeUsuario} />
@@ -55,77 +61,75 @@ function App() {
 
         <Localizacao />
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          <div className="md:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-xl font-bold text-slate-800">
-                  Participantes
-                </h2>
+        <section className="mb-8 bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-xl font-bold text-slate-800 mb-1">
+            Cadastro
+          </h2>
 
-                {pessoas.length === 0 && (
-                  <p className="text-sm text-slate-500">
-                    Nenhum cadastro realizado ainda.
-                  </p>
-                )}
-              </div>
+          <p className="text-sm text-slate-500 mb-5">
+            Preencha os dados para gerar o card do participante.
+          </p>
 
-              {pessoas.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {totalConfirmados > 0 && (
-                    <span className="bg-green-100 text-green-700 text-sm font-semibold px-4 py-2 rounded-full">
-                      {totalConfirmados} confirmado(s)
-                    </span>
-                  )}
+          <FormCadastro onCadastrar={adicionarPessoa} />
+        </section>
 
-                  {totalPendentes > 0 && (
-                    <span className="bg-red-100 text-red-700 text-sm font-semibold px-4 py-2 rounded-full">
-                      {totalPendentes} pendente(s)
-                    </span>
-                  )}
-                </div>
+        <section className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">
+                Participantes
+              </h2>
+
+              {pessoas.length === 0 && (
+                <p className="text-sm text-slate-500">
+                  Nenhum cadastro realizado ainda.
+                </p>
               )}
             </div>
 
-            {pessoas.length === 0 ? (
-              <div className="border border-dashed border-slate-300 rounded-3xl p-10 text-center">
-                <div className="w-16 h-16 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-                  +
-                </div>
+            {pessoas.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {totalConfirmados > 0 && (
+                  <span className="bg-green-100 text-green-700 text-sm font-semibold px-4 py-2 rounded-full">
+                    {totalConfirmados} confirmado(s)
+                  </span>
+                )}
 
-                <h3 className="text-lg font-bold text-slate-700 mt-4">
-                  Nenhum participante cadastrado
-                </h3>
-
-                <p className="text-slate-500 mt-2">
-                  Use o formulário ao lado para adicionar o primeiro
-                  participante.
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                {pessoas.map((pessoa) => (
-                  <CardPessoa
-                    key={pessoa.id}
-                    pessoa={pessoa}
-                    onConfirmarPagamento={confirmarPagamento}
-                  />
-                ))}
+                {totalPendentes > 0 && (
+                  <span className="bg-red-100 text-red-700 text-sm font-semibold px-4 py-2 rounded-full">
+                    {totalPendentes} pendente(s)
+                  </span>
+                )}
               </div>
             )}
           </div>
 
-          <aside className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:sticky md:top-6">
-            <h2 className="text-xl font-bold text-slate-800 mb-1">
-              Cadastro
-            </h2>
+          {pessoas.length === 0 ? (
+            <div className="border border-dashed border-slate-300 rounded-3xl p-10 text-center">
+              <div className="w-16 h-16 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                +
+              </div>
 
-            <p className="text-sm text-slate-500 mb-5">
-              Preencha os dados para gerar o card.
-            </p>
+              <h3 className="text-lg font-bold text-slate-700 mt-4">
+                Nenhum participante cadastrado
+              </h3>
 
-            <FormCadastro onCadastrar={adicionarPessoa} />
-          </aside>
+              <p className="text-slate-500 mt-2">
+                Use o formulário acima para adicionar o primeiro participante.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {pessoas.map((pessoa) => (
+                <CardPessoa
+                  key={pessoa.id}
+                  pessoa={pessoa}
+                  onConfirmarPagamento={confirmarPagamento}
+                  onRemoverParticipante={removerParticipante}
+                />
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>
