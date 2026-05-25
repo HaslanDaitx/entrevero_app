@@ -1,6 +1,6 @@
 import logoComputacao from "../assets/logo.png"
 
-function Header({ name }) {
+function Header(props) {
   return (
     <header className="bg-[#003fd1] text-white shadow">
       <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -10,7 +10,7 @@ function Header({ name }) {
           </h1>
 
           <p className="text-blue-100 mt-2">
-            Seja bem-vindo, {name || "visitante"}!
+            Seja bem-vindo, {props.name || "visitante"}!
           </p>
         </div>
 

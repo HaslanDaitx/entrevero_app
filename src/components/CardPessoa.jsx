@@ -18,12 +18,12 @@ function CardPessoa({
         onClick={(event) => {
           event.stopPropagation()
 
-           const confirmar = window.confirm(
-              `Deseja realmente excluir ${pessoa.nome}?`
-            )
-            if (confirmar) {
-              onRemoverParticipante(pessoa.id)
-            }
+          const confirmar = window.confirm(
+            `Deseja realmente excluir ${pessoa.nome}?`
+          )
+          if (confirmar) {
+            onRemoverParticipante(pessoa.id)
+          }
         }}
         className="absolute top-4 right-4 p-2 rounded-xl text-red-500 hover:bg-red-50 hover:text-red-700 transition"
       >
