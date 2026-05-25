@@ -1,39 +1,41 @@
-import { useState } from "react"
+import { useState } from "react";
 
 function Localizacao() {
-  const [cep, setCep] = useState("")
-  const [endereco, setEndereco] = useState(null)
-  const [mostrarEndereco, setMostrarEndereco] = useState(false)
-  const [erro, setErro] = useState("")
+  const [cep, setCep] = useState("");
+  const [endereco, setEndereco] = useState(null);
+  const [mostrarEndereco, setMostrarEndereco] = useState(false);
+  const [erro, setErro] = useState("");
 
   async function buscarLocalizacao() {
-    const cepLimpo = cep.replace(/\D/g, "")
+    const cepLimpo = cep.replace(/\D/g, "");
 
     if (cepLimpo.length !== 8) {
-      setErro("Digite um CEP válido com 8 números.")
-      setEndereco(null)
-      setMostrarEndereco(false)
-      return
+      setErro("Digite um CEP válido com 8 números.");
+      setEndereco(null);
+      setMostrarEndereco(false);
+      return;
     }
 
     try {
-      const resposta = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
-      const dados = await resposta.json()
+      const resposta = await fetch(
+        `https://viacep.com.br/ws/${cepLimpo}/json/`,
+      );
+      const dados = await resposta.json();
 
       if (dados.erro) {
-        setErro("CEP não encontrado.")
-        setEndereco(null)
-        setMostrarEndereco(false)
-        return
+        setErro("CEP não encontrado.");
+        setEndereco(null);
+        setMostrarEndereco(false);
+        return;
       }
 
-      setEndereco(dados)
-      setMostrarEndereco(true)
-      setErro("")
+      setEndereco(dados);
+      setMostrarEndereco(true);
+      setErro("");
     } catch {
-      setErro("Erro ao buscar o CEP.")
-      setEndereco(null)
-      setMostrarEndereco(false)
+      setErro("Erro ao buscar o CEP.");
+      setEndereco(null);
+      setMostrarEndereco(false);
     }
   }
 
@@ -46,7 +48,7 @@ function Localizacao() {
           </h2>
 
           <p className="text-sm text-slate-500 mt-1">
-            Informe o CEP para buscar os dados pelo ViaCEP.
+            Informe o CEP para buscar o local do evento.
           </p>
 
           <label className="block text-sm font-semibold text-slate-700 mt-4 mb-1">
@@ -115,7 +117,7 @@ function Localizacao() {
         </div>
       )}
     </section>
-  )
+  );
 }
 
-export default Localizacao
+export default Localizacao;
